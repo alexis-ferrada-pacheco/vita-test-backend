@@ -5,12 +5,13 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#   allow do
-#     origins "example.com"
-#
-#     resource "*",
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#   end
-# end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins '*' # Update this to restrict CORS access to specific origins in production.
+    #origins ENV['FRONTEND_ORIGIN'] # Create FRONTEND_ORIGIN environment variable and set it to the URL of your frontend app in development and production, then replace '*' with ENV['FRONTEND_ORIGIN'] to restrict CORS access to only your frontend app.
+    resource '*',
+             headers: :any,
+             methods: %i[get post put patch delete options head],
+             expose: [:Authorization]
+  end
+end
